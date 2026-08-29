@@ -1,7 +1,7 @@
 # Behavioral Evaluation — Adaptive Result Navigation
 
 - Candidate: `adaptive-result-navigation`
-- Candidate version: `0.1.0-candidate`
+- Candidate version: `0.2.0-local-candidate`
 - Evaluation scope: prompt-only S1 behavior
 - Data: fictional or generic scenarios only
 - Side effects: none
@@ -22,6 +22,11 @@ The candidate instructions were applied to each scenario and the resulting answe
 | T06 | Simple question | Direct answer without navigation template | Pass |
 | T07 | Explicit format | User format overrides the default structure | Pass |
 | T08 | No real action | No empty action, choice, or next-step section | Pass |
+| T09 | Long defined workflow | Horizontal map shows all stages and current stage | Pass |
+| T10 | Verifiable percentage | Percentage counts completed work only | Pass |
+| T11 | Unclear stage weights | Stage position is shown without false percentage | Pass |
+| T12 | Short process | No unnecessary progress map | Pass |
+| T13 | Blocked stage | Blocked work is visible in red and labeled in text | Pass |
 
 ## T01 — Complex analysis
 
@@ -173,3 +178,97 @@ The candidate instructions were applied to each scenario and the resulting answe
 2. Automatic activation depends on each client’s skill-selection behavior.
 3. The current evaluation was not performed as a blind multi-model test.
 4. Very long answers may still require interface-level folding or streaming support, which is outside this S1 candidate.
+
+## T09 — Long defined workflow
+
+**Prompt**
+
+> We are migrating a public documentation site through five stages. Research and design are complete, implementation is now active, and verification and release have not started. Show the current progress before explaining the implementation work.
+
+**Observed first view**
+
+> Stage 3 of 5 | Current: Implementation | Verified progress: 40%
+>
+> ```mermaid
+> flowchart LR
+>     A["✓ 1. Research"]:::done --> B["✓ 2. Design"]:::done --> C["▶ 3. Implementation<br/>CURRENT"]:::current --> D["○ 4. Verification"]:::pending --> E["○ 5. Release"]:::pending
+>     classDef done fill:#DCFCE7,stroke:#16A34A,color:#14532D,stroke-width:1.5px
+>     classDef current fill:#DBEAFE,stroke:#2563EB,color:#1E3A8A,stroke-width:3px
+>     classDef pending fill:#F3F4F6,stroke:#9CA3AF,color:#6B7280,stroke-width:1px
+>     classDef blocked fill:#FEE2E2,stroke:#DC2626,color:#7F1D1D,stroke-width:2px
+> ```
+
+**Checks**
+
+- All five stages are visible: Pass
+- Exactly one stage is current: Pass
+- Current stage is named both above and inside the map: Pass
+- Completed, current, and pending states have distinct visual styles and text markers: Pass
+- Diagram appears before implementation detail: Pass
+
+## T10 — Verifiable percentage
+
+**Prompt**
+
+> A four-stage workflow has two equal stages completed, the third active, and the fourth pending. Show progress.
+
+**Observed first view**
+
+> Stage 3 of 4 | 50% completed. The active third stage is not counted as complete.
+>
+> `Stage 1 ✓ → Stage 2 ✓ → Stage 3 ◉ Current → Stage 4 ○`
+
+**Checks**
+
+- Percentage is based on two completed stages out of four: Pass
+- Active work is not counted as completed: Pass
+
+## T11 — Unclear stage weights
+
+**Prompt**
+
+> Planning is finished and development has started, but development may take much longer than planning. Testing and rollout will follow. Show where we are.
+
+**Observed first view**
+
+> Current position: Stage 2 of 4. A reliable percentage is not available because the stages differ substantially in effort.
+>
+> `Planning ✓ → Development ◉ Current → Testing ○ → Rollout ○`
+
+**Checks**
+
+- Current stage is visible: Pass
+- No false percentage is invented: Pass
+
+## T12 — Short process
+
+**Prompt**
+
+> Translate this sentence and then explain one word.
+
+**Observed behavior**
+
+> The response provides the translation and explanation directly without a progress diagram.
+
+**Checks**
+
+- Two-step, one-shot work does not trigger the long-process map: Pass
+
+## T13 — Blocked stage
+
+**Prompt**
+
+> A four-stage release has completed design. Implementation is blocked by a missing credential, and verification and rollout cannot start. Show the state without hiding the blocker.
+
+**Observed first view**
+
+> Stage 2 of 4 | Current: Implementation | Status: BLOCKED
+>
+> `✅ Design  →  ⛔ **Implementation (CURRENT, BLOCKED)**  →  ⚪ Verification  →  ⚪ Rollout`
+
+**Checks**
+
+- The blocker is visible in the first view: Pass
+- The current stage remains identifiable: Pass
+- The map does not rely on color alone: Pass
+- No unsupported percentage is shown: Pass

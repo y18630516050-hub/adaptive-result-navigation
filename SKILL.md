@@ -1,6 +1,6 @@
 ---
 name: adaptive-result-navigation
-description: Organize complex responses around the reader's primary intent, placing the essential answer, recommendation, status, or direction before supporting detail and only real actions. Use for multi-factor analysis, decisions, execution guidance, reviews, or open exploration that would benefit from information prioritization. Do not use for simple factual answers, raw code or command delivery, or requests with an explicit output format.
+description: Organize complex responses around the reader's primary intent, placing the essential answer, recommendation, status, or direction before supporting detail and only real actions. For genuinely long multi-stage work, show a compact horizontal stage map with the current stage and evidence-based progress. Use for multi-factor analysis, decisions, execution guidance, reviews, exploration, or long workflows that benefit from information prioritization. Do not use for simple factual answers, raw code or command delivery, or requests with an explicit output format.
 ---
 
 # Adaptive Result Navigation
@@ -28,6 +28,43 @@ After the first view, expand only with information that changes understanding, c
 
 Include actions, decisions, risks, or blockers only when they are real. Never create empty sections, decorative checklists, fake alternatives, or generic next steps to complete a template.
 
+## Show progress for long multi-stage work
+
+Use a progress map only when the work has at least three meaningful stages and the reader benefits from knowing the overall route and current position. Do not add it to short answers, one-shot deliverables, loosely defined exploration, or a process whose stages cannot yet be stated honestly.
+
+Place the map in the first view, immediately after the essential conclusion or status and before detailed explanation.
+
+1. Name every stage with a short outcome, not a vague activity.
+2. Mark completed stages only when completion has evidence. Mark exactly one current stage. Leave later stages pending or blocked as appropriate.
+3. Prefer a styled horizontal Mermaid stage tracker when the client supports Mermaid. The tracker must make the current position visually unmistakable rather than merely listing stages:
+
+```mermaid
+flowchart LR
+    A["✓ 1. Scope"]:::done --> B["▶ 2. Design<br/>CURRENT"]:::current --> C["○ 3. Build"]:::pending --> D["○ 4. Verify"]:::pending
+    classDef done fill:#DCFCE7,stroke:#16A34A,color:#14532D,stroke-width:1.5px
+    classDef current fill:#DBEAFE,stroke:#2563EB,color:#1E3A8A,stroke-width:3px
+    classDef pending fill:#F3F4F6,stroke:#9CA3AF,color:#6B7280,stroke-width:1px
+    classDef blocked fill:#FEE2E2,stroke:#DC2626,color:#7F1D1D,stroke-width:2px
+```
+
+Put a compact status label immediately above the diagram, for example: `Stage 2 of 4 | Current: Design | Verified progress: 25%`. Use completed-stage progress rather than treating the current stage as completed.
+
+4. When Mermaid is unavailable or the user asks for plain text, use one compact Markdown stage strip with distinct completed, current, pending, and blocked markers:
+
+```text
+✅ Scope  →  🔵 **Design (CURRENT)**  →  ⚪ Build  →  ⚪ Verify
+```
+
+Use `✅` only for evidenced completion, `🔵` for exactly one current stage, `⚪` for pending work, and `⛔` for a blocked stage. Do not rely on color alone; always include `CURRENT` in the current node and name it again in the status label.
+
+5. Show `Stage 2 of 4` whenever the stage count and current position are known. Show a percentage only when its basis is defensible:
+   - If stages are comparable in effort, calculate progress from completed stages: `completed stages ÷ total stages`.
+   - If stages have explicit weights, calculate progress from completed weights.
+   - Do not count the current stage as complete merely because it has started.
+   - If stage sizes or completion evidence are unclear, omit the percentage rather than inventing precision.
+6. Update the map only when a stage completes, the plan changes, or a blocker changes the route. Do not repeat an unchanged diagram in every reply.
+7. If the conversation context does not contain reliable prior-stage status, say that progress cannot yet be verified instead of reconstructing false history.
+
 ## Preserve truth and control
 
 - Do not hide uncertainty, weak evidence, conflicts, authorization limits, failures, or unfinished work for the sake of brevity.
@@ -38,4 +75,4 @@ Include actions, decisions, risks, or blockers only when they are real. Never cr
 
 ## Exit behavior
 
-This skill keeps no memory and changes no external state. Stop applying it when the response becomes simple, the user supplies another format, or the requested deliverable must remain raw and unaltered.
+This skill keeps no memory and changes no external state. Its progress map reflects only the reliable status available in the current context; it is not a persistent tracker. Stop applying it when the response becomes simple, the user supplies another format, or the requested deliverable must remain raw and unaltered.

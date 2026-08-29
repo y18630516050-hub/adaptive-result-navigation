@@ -8,9 +8,13 @@ When a response contains meaningful analysis, tradeoffs, steps, evidence, or unc
 
 Simple questions stay simple, and an explicit user format always takes precedence.
 
+For genuinely long work with three or more defined stages, the skill can place a compact horizontal progress map near the start of the response. It shows the total stages, names the current stage above the diagram, and—only when the calculation is supportable—shows an evidence-based completion percentage. The default visual language is green for evidenced completion, a blue heavy outline for the current stage, gray for pending work, and red for blocked work; text labels remain mandatory so the map does not depend on color alone.
+
 ## What it does not do
 
 - It does not create buttons, forms, persistent preferences, or background services.
+- It does not maintain progress outside the conversation context or create a pinned interface widget.
+- It does not invent a percentage when stage size or completion evidence is unclear.
 - It does not guarantee identical wording across models or runs.
 - It does not hide uncertainty or turn proposals into completed work.
 - It does not replace domain expertise, source verification, permission checks, or human decisions.
@@ -27,7 +31,7 @@ Behavioral scenarios and current limitations are recorded in [`tests/behavioral-
 
 ## Status
 
-Release version: `v0.1.0`. This is a prompt-only Skill; behavior can vary by client and model.
+Current public release: `v0.1.0`. The styled progress-map enhancement is a `v0.2.0` candidate and is not part of a tagged release. This is a prompt-only Skill; behavior can vary by client and model.
 
 ## License
 
