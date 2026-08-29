@@ -1,0 +1,12 @@
+# Internal release planning stays local until publication is approved.
+GITHUB_RELEASE_CANDIDATE.md
+
+# Local/editor/system files
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
