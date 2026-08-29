@@ -27,8 +27,9 @@ Behavioral scenarios and current limitations are recorded in [`tests/behavioral-
 
 ## Status
 
-Candidate version: `0.1.0-candidate`. It has not been published or released.
+Release version: `v0.1.0`. This is a prompt-only Skill; behavior can vary by client and model.
 
 ## License
 
-No public license has been applied to this private candidate. A license must be selected and added before any public release.
+Licensed under the [Apache License 2.0](LICENSE).
+
