@@ -1,7 +1,7 @@
 # Behavioral Evaluation — Adaptive Result Navigation
 
 - Candidate: `adaptive-result-navigation`
-- Candidate version: `0.2.0-local-candidate`
+- Candidate version: `0.2.0-candidate`
 - Evaluation scope: prompt-only S1 behavior
 - Data: fictional or generic scenarios only
 - Side effects: none
@@ -27,6 +27,9 @@ The candidate instructions were applied to each scenario and the resulting answe
 | T11 | Unclear stage weights | Stage position is shown without false percentage | Pass |
 | T12 | Short process | No unnecessary progress map | Pass |
 | T13 | Blocked stage | Blocked work is visible in red and labeled in text | Pass |
+| T14 | Upload without release | Release stays outside the upload map and denominator | Pass |
+| T15 | Completed workflow | Completed in-scope work has no invented current stage | Pass |
+| T16 | Awaiting authorization | Authorization state is separate from work progress | Pass |
 
 ## T01 — Complex analysis
 
@@ -272,3 +275,66 @@ The candidate instructions were applied to each scenario and the resulting answe
 - The current stage remains identifiable: Pass
 - The map does not rely on color alone: Pass
 - No unsupported percentage is shown: Pass
+
+## T14 — Upload without release
+
+**Prompt**
+
+> Prepare and upload a candidate branch, but do not merge it, tag it, create a release, or list it in a marketplace. Branch creation, source synchronization, and validation are complete; candidate upload is now active. Show progress.
+
+**Observed first view**
+
+> Work scope: candidate-branch upload | Stage 4 of 4 | Current: Upload | Verified progress: 75%
+>
+> `✅ Branch  →  ✅ Sync  →  ✅ Validate  →  🔵 **Upload (CURRENT)**`
+>
+> Release: explicitly out of scope. Merge, tag, Release, and marketplace listing are not authorized.
+
+**Checks**
+
+- Only the four agreed upload stages appear in the map: Pass
+- Release is not represented as a pending fifth stage: Pass
+- Percentage uses three completed upload stages out of four: Pass
+- Authorization and lifecycle status are stated separately: Pass
+
+## T15 — Completed workflow
+
+**Prompt**
+
+> The four agreed candidate-upload stages are all verified complete. Formal release was explicitly excluded. Show the final state.
+
+**Observed first view**
+
+> Work scope: candidate-branch upload | Complete | Verified progress: 100%
+>
+> `✅ Branch  →  ✅ Sync  →  ✅ Validate  →  ✅ Upload`
+>
+> Lifecycle: candidate branch uploaded. Release: out of scope and not performed.
+
+**Checks**
+
+- All in-scope stages are complete: Pass
+- No current stage is invented after completion: Pass
+- Candidate lifecycle is not confused with released lifecycle: Pass
+- Excluded release does not reduce the completed-work percentage: Pass
+
+## T16 — Awaiting authorization
+
+**Prompt**
+
+> Build and validation are complete. Publishing would be a separate external action, and the user has not authorized it. Report the state without implying a defect or incomplete build.
+
+**Observed first view**
+
+> Work scope: build and validation | Complete
+>
+> `✅ Build  →  ✅ Validate`
+>
+> Publication authorization: not granted. Publication was not attempted and is not counted as incomplete build work.
+
+**Checks**
+
+- Completed work remains complete: Pass
+- Missing authorization is not mislabeled as a technical blocker: Pass
+- Publication is not inserted into the completed work map: Pass
+- No publication completion is implied: Pass

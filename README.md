@@ -10,6 +10,8 @@ Simple questions stay simple, and an explicit user format always takes precedenc
 
 For genuinely long work with three or more defined stages, the skill can place a compact horizontal progress map near the start of the response. It shows the total stages, names the current stage above the diagram, and—only when the calculation is supportable—shows an evidence-based completion percentage. The default visual language is green for evidenced completion, a blue heavy outline for the current stage, gray for pending work, and red for blocked work; text labels remain mandatory so the map does not depend on color alone.
 
+The progress map covers only the work agreed for the current run. Product lifecycle, approval, merge, release, and publication states are reported separately when relevant. For example, “candidate upload complete” must not be presented as “release complete,” and an explicitly excluded release must not inflate the stage count or reduce the upload percentage.
+
 ## What it does not do
 
 - It does not create buttons, forms, persistent preferences, or background services.

@@ -34,9 +34,23 @@ Use a progress map only when the work has at least three meaningful stages and t
 
 Place the map in the first view, immediately after the essential conclusion or status and before detailed explanation.
 
+### Separate work progress from lifecycle status
+
+Before drawing the map, define the scope of the work currently agreed with the reader. The map and its percentage cover only those in-scope stages.
+
+- **Work progress** answers: Which agreed stage is complete, current, pending, or blocked?
+- **Lifecycle status** answers: Is the artifact a draft, candidate, approved, merged, released, archived, or otherwise in a product state?
+- **Authorization or gate status** answers: Is an external action requested, authorized, ready, blocked, or deliberately excluded from this run?
+
+Do not place an out-of-scope, unrequested, or unauthorized lifecycle action into the work map merely to make the route look complete. State it separately, for example: `Release: out of scope for this run`, `Release: not authorized`, or `Release gate: not ready`. Completing an upload does not imply approval, merge, release, publication, or marketplace listing.
+
+### Mark stage state
+
 1. Name every stage with a short outcome, not a vague activity.
-2. Mark completed stages only when completion has evidence. Mark exactly one current stage. Leave later stages pending or blocked as appropriate.
-3. Prefer a styled horizontal Mermaid stage tracker when the client supports Mermaid. The tracker must make the current position visually unmistakable rather than merely listing stages:
+2. Mark completed stages only when completion has evidence.
+3. For active work, mark exactly one stage as current. For a completed in-scope workflow, mark every in-scope stage complete and do not invent a current stage. If the current stage cannot proceed, mark that same stage as blocked and state the blocking condition.
+4. Leave only later, in-scope work pending. Do not use pending for work that is outside the agreed scope.
+5. Prefer a styled horizontal Mermaid stage tracker when the client supports Mermaid. The tracker must make the current position visually unmistakable rather than merely listing stages:
 
 ```mermaid
 flowchart LR
@@ -47,23 +61,24 @@ flowchart LR
     classDef blocked fill:#FEE2E2,stroke:#DC2626,color:#7F1D1D,stroke-width:2px
 ```
 
-Put a compact status label immediately above the diagram, for example: `Stage 2 of 4 | Current: Design | Verified progress: 25%`. Use completed-stage progress rather than treating the current stage as completed.
+Put a compact work-status label immediately above the diagram, for example: `Work scope: documentation migration | Stage 2 of 4 | Current: Design | Verified progress: 25%`. Use completed-stage progress rather than treating the current stage as completed. Put lifecycle, authorization, or release status on a separate line when it matters.
 
-4. When Mermaid is unavailable or the user asks for plain text, use one compact Markdown stage strip with distinct completed, current, pending, and blocked markers:
+6. When Mermaid is unavailable or the user asks for plain text, use one compact Markdown stage strip with distinct completed, current, pending, and blocked markers:
 
 ```text
 ✅ Scope  →  🔵 **Design (CURRENT)**  →  ⚪ Build  →  ⚪ Verify
 ```
 
-Use `✅` only for evidenced completion, `🔵` for exactly one current stage, `⚪` for pending work, and `⛔` for a blocked stage. Do not rely on color alone; always include `CURRENT` in the current node and name it again in the status label.
+Use `✅` only for evidenced completion, `🔵` for exactly one active current stage, `⚪` for later in-scope pending work, and `⛔` for a blocked current stage. Do not rely on color alone; always label the state in text. A deliberately excluded or unauthorized action belongs outside the strip, not as a pending stage.
 
-5. Show `Stage 2 of 4` whenever the stage count and current position are known. Show a percentage only when its basis is defensible:
+7. Show `Stage 2 of 4` whenever the stage count and current position are known. Show a percentage only when its basis is defensible:
    - If stages are comparable in effort, calculate progress from completed stages: `completed stages ÷ total stages`.
    - If stages have explicit weights, calculate progress from completed weights.
    - Do not count the current stage as complete merely because it has started.
+   - The denominator contains only the agreed in-scope work. Never include a future release, approval, merge, or marketplace action that the reader explicitly excluded.
    - If stage sizes or completion evidence are unclear, omit the percentage rather than inventing precision.
-6. Update the map only when a stage completes, the plan changes, or a blocker changes the route. Do not repeat an unchanged diagram in every reply.
-7. If the conversation context does not contain reliable prior-stage status, say that progress cannot yet be verified instead of reconstructing false history.
+8. Update the map only when a stage completes, the plan changes, or a blocker changes the route. Do not repeat an unchanged diagram in every reply.
+9. If the conversation context does not contain reliable prior-stage status, say that progress cannot yet be verified instead of reconstructing false history.
 
 ## Preserve truth and control
 
