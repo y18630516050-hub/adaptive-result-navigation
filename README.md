@@ -12,6 +12,8 @@ For genuinely long work with three or more defined stages, the skill can place a
 
 The progress map covers only the work agreed for the current run. Product lifecycle, approval, merge, release, and publication states are reported separately when relevant. For example, “candidate upload complete” must not be presented as “release complete,” and an explicitly excluded release must not inflate the stage count or reduce the upload percentage.
 
+The first reliable map becomes a versioned baseline for the workflow. Its stage IDs, names, order, count, and percentage denominator stay fixed across later responses. Newly discovered defects and side work are shown as branches under the affected stage instead of becoming new main stages. A changed baseline requires an explicit scope change or an acknowledged structural correction; the prompt-only Skill cannot preserve that baseline across windows unless the conversation or a persistent task record supplies it.
+
 ## What it does not do
 
 - It does not create buttons, forms, persistent preferences, or background services.

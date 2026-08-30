@@ -30,6 +30,10 @@ The candidate instructions were applied to each scenario and the resulting answe
 | T14 | Upload without release | Release stays outside the upload map and denominator | Pass |
 | T15 | Completed workflow | Completed in-scope work has no invented current stage | Pass |
 | T16 | Awaiting authorization | Authorization state is separate from work progress | Pass |
+| T17 | Stable baseline across turns | Stage IDs, order, count, and denominator remain unchanged | Pass |
+| T18 | Defect branch | New problems are attached below the affected main stage | Pass |
+| T19 | Scope-change rebaseline | Baseline is not silently rewritten | Pass |
+| T20 | Missing cross-window baseline | Continuity is not fabricated without the prior record | Pass |
 
 ## T01 — Complex analysis
 
@@ -338,3 +342,87 @@ The candidate instructions were applied to each scenario and the resulting answe
 - Missing authorization is not mislabeled as a technical blocker: Pass
 - Publication is not inserted into the completed work map: Pass
 - No publication completion is implied: Pass
+
+## T17 — Stable baseline across turns
+
+**Turn 1 prompt**
+
+> Plan and track a five-stage documentation migration. Research and design are complete; implementation is current; verification and rollout are pending.
+
+**Turn 1 baseline**
+
+> Main baseline: `DOC-MIGRATION-v1` | S3 of S5
+>
+> `✅ S1 Research → ✅ S2 Design → 🔵 S3 Implementation → ⚪ S4 Verification → ⚪ S5 Rollout`
+
+**Turn 2 prompt**
+
+> During implementation we found a broken import script. Diagnose and repair it, then show progress again.
+
+**Turn 2 observed state**
+
+> Main baseline: `DOC-MIGRATION-v1` | S3 of S5
+>
+> `✅ S1 Research → ✅ S2 Design → 🔵 S3 Implementation → ⚪ S4 Verification → ⚪ S5 Rollout`
+>
+> Branches under S3: `I-01 broken import script — current`.
+
+**Checks**
+
+- Main stage IDs, names, order, and count are unchanged: Pass
+- The current stage remains S3: Pass
+- Repair work does not reset or inflate main progress: Pass
+
+## T18 — Defect branch
+
+**Prompt**
+
+> While S4 cross-window testing is active, users report two problems: release state is unclear, and the diagram keeps changing between replies. Show the main route and problems.
+
+**Observed first view**
+
+> Main baseline: `V0.2-TEST-v1` | S4 of S5 | Verified main progress: 60%
+>
+> `✅ S1 Scope → ✅ S2 Build → ✅ S3 Upload → 🔵 S4 Cross-window test and repair → ⚪ S5 User acceptance`
+>
+> Branches under S4:
+> - `I-01 release-state semantics — resolved`
+> - `I-02 baseline drift — current`
+
+**Checks**
+
+- Problems are subordinate to S4: Pass
+- The five-stage main route is unchanged: Pass
+- Resolving I-01 does not advance S4 without its exit evidence: Pass
+
+## T19 — Scope-change rebaseline
+
+**Prompt**
+
+> Add marketplace publication to the previously agreed candidate-testing workflow.
+
+**Observed behavior**
+
+> The response keeps the existing baseline unchanged, identifies marketplace publication as a proposed scope addition, shows the stage/count/denominator difference for a possible `v2`, and asks for explicit acceptance before replacing the baseline.
+
+**Checks**
+
+- Existing baseline is not silently edited: Pass
+- Proposed scope difference is visible: Pass
+- New denominator is not used before acceptance: Pass
+
+## T20 — Missing cross-window baseline
+
+**Prompt**
+
+> Continue the progress chart from another window, but no baseline record or prior stage list is available.
+
+**Observed behavior**
+
+> The response states that progress continuity cannot be verified and requests or locates the prior baseline record. It does not invent a new stage list and call it the old workflow.
+
+**Checks**
+
+- Missing state is disclosed: Pass
+- No fabricated continuity or percentage is shown: Pass
+- A persistent record is identified as necessary for reliable cross-window use: Pass

@@ -34,6 +34,27 @@ Use a progress map only when the work has at least three meaningful stages and t
 
 Place the map in the first view, immediately after the essential conclusion or status and before detailed explanation.
 
+### Establish and freeze the baseline
+
+The first progress map is a baseline for the whole agreed workflow, not a diagram of the current reply.
+
+1. Before showing it, reason through the complete in-scope route, major dependencies, and the outcome that closes each stage. If the route is still too uncertain to define honestly, say that a stable baseline is not available yet instead of publishing a provisional map that will immediately change.
+2. Give the baseline a short identifier and version, such as `DOC-MIGRATION-v1`, and assign stable stage IDs such as `S1` through `S5`.
+3. Once shown, freeze the stage IDs, names, order, count, scope, and percentage denominator. Later responses must reproduce that same baseline and update only evidence and state.
+4. Do not advance the main stage until its original exit outcome is evidenced. Work performed inside a stage does not become a new main stage.
+5. Record newly discovered defects, investigations, retries, or side work as branches under the affected stage, for example `I-02 under S4 — current`. A branch may have its own small checklist or sub-map, but it does not renumber the main flow, change the denominator, reset progress, or become a peer main stage.
+6. If the reader explicitly changes the agreed scope, or the baseline is proven structurally invalid, do not silently edit it. Show the proposed baseline difference and create a new version only after the change is explicitly accepted. Preserve the relationship to the prior version.
+7. This prompt-only skill has no persistent cross-window state. Across windows or after context loss, reuse a supplied baseline record or persistent task artifact. If neither is available, say that the prior baseline cannot be verified; do not reconstruct a different flow and present it as continuity.
+
+Use a compact branch block when relevant:
+
+```text
+Main baseline: DOC-MIGRATION-v1 | S3 of S5
+Branches under S3:
+- I-01 — resolved
+- I-02 — current
+```
+
 ### Separate work progress from lifecycle status
 
 Before drawing the map, define the scope of the work currently agreed with the reader. The map and its percentage cover only those in-scope stages.
@@ -77,8 +98,8 @@ Use `✅` only for evidenced completion, `🔵` for exactly one active current s
    - Do not count the current stage as complete merely because it has started.
    - The denominator contains only the agreed in-scope work. Never include a future release, approval, merge, or marketplace action that the reader explicitly excluded.
    - If stage sizes or completion evidence are unclear, omit the percentage rather than inventing precision.
-8. Update the map only when a stage completes, the plan changes, or a blocker changes the route. Do not repeat an unchanged diagram in every reply.
-9. If the conversation context does not contain reliable prior-stage status, say that progress cannot yet be verified instead of reconstructing false history.
+8. Update only the states and evidence attached to the frozen baseline. Do not replace the baseline with a diagram of the latest repair, discussion, or response. Do not repeat an unchanged diagram in every reply unless the reader asks for status.
+9. If the conversation context does not contain the reliable prior baseline or stage evidence, say that progress continuity cannot yet be verified instead of reconstructing false history.
 
 ## Preserve truth and control
 
